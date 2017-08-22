@@ -3,10 +3,10 @@
 class Enemy {
     constructor(x,y,speed) {
         this.sprite = 'images/enemy-bug.png';
+        this.width = 
         this.x = -40;
         this.y = Math.floor(Math.random() * 201) + 50;
         this.speed = Math.floor(Math.random() * 101) + 65;
-        console.log(this.y);
     }
     update(dt) {
             // You should multiply any movement by the dt parameter
@@ -31,33 +31,34 @@ class Enemy {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor(x,y,movement) {
+    constructor() {
         this.sprite = 'images/char-boy.png';
-        this.x = 300;
+        this.width = 101;
+        this.x = 303 - this.width;
         this.y = 300;
     }
     handleInput(direction) {
-        if (direction === 'up') {
-            this.x += 100;
-        }
-        if (direction === 'down') {
-            this.x -= 100;
-        }
         if (direction === 'right') {
-            this.y += 100 ;
+            this.x += this.width;
         }
         if (direction === 'left') {
-            this.y -= 100;
+            this.x -= this.width;
+        }
+        if (direction === 'down') {
+            this.y += this.width ;
+        }
+        if (direction === 'up') {
+            this.y -= this.width;
         }
     }
     update(dt) {
             // You should multiply any movement by the dt parameter
             // which will ensure the game runs at the same speed for
             // all computers.
-            this.x = this.x + this.speed * dt;
+            //this.x = this.x + this.speed * dt;
     }
     render() {
-            ctx.drawImage(Resources.get(this.sprite),this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
 }
@@ -72,7 +73,9 @@ var bug3 = new Enemy();
 
 var allEnemies = [bug1, bug2, bug3];
 var player = new Player();
+
 console.log(player);
+console.log(bug1);
 
 
 // This listens for key presses and sends the keys to your
