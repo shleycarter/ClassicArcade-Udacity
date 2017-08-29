@@ -2,14 +2,17 @@
 // Enemies our player must avoid
 class Enemy {
     constructor(x,y,speed) {
+        var enemyTracks = [61,142,223];
         this.sprite = 'images/enemy-bug.png';
         this.width = 
         this.x = -40;
-        this.y = Math.floor(Math.random() * 201) + 50;
+        this.y = enemyTracks[Math.floor(Math.random() * enemyTracks.length)];
         this.speed = Math.floor(Math.random() * 101) + 65;
+        console.log(this.y);
     }
     update(dt) {
-            // You should multiply any movement by the dt parameter
+        var enemyTracks = [61,142,223];    
+        // You should multiply any movement by the dt parameter
             // which will ensure the game runs at the same speed for
             // all computers.
             this.x = this.x + this.speed * dt;
@@ -17,7 +20,7 @@ class Enemy {
             //of the board and randomizes the speed as well as the x & y coordinates.
             if (this.x > 505) {
             this.x = -40;
-            this.y = Math.floor(Math.random() * 201) + 50;
+            this.y = enemyTracks[Math.floor(Math.random() * enemyTracks.length)];
             this.speed = Math.floor(Math.random() * 101) + 50;
             console.log(this.y);
         }
@@ -34,8 +37,9 @@ class Player {
     constructor() {
         this.sprite = 'images/char-boy.png';
         this.width = 101;
+        this.height = 81;
         this.x = 303 - this.width;
-        this.y = 300;
+        this.y = 404;
     }
     handleInput(direction) {
         if (direction === 'right') {
@@ -45,22 +49,34 @@ class Player {
             this.x -= this.width;
         }
         if (direction === 'down') {
-            this.y += this.width ;
+            this.y += this.height ;
         }
         if (direction === 'up') {
-            this.y -= this.width;
+            this.y -= this.height;
         }
     }
     update(dt) {
-            // You should multiply any movement by the dt parameter
-            // which will ensure the game runs at the same speed for
-            // all computers.
-            //this.x = this.x + this.speed * dt;
+        // Making sure the player stays on the canvas game board
+        if(this.x < 0) {
+            this.x = 0;
+        }
+        if(this.x > 404) {
+            this.x = 404;
+        }
+        if(this.y < 0) {
+            this.y = 0;
+        }
+        if(this.y > 404) {
+            this.y = 404;
+        }
     }
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-
+    resetPlayer() {
+        this.x = 303 - this.width;
+        this.y = 404;
+    }
 }
 
 
@@ -76,6 +92,20 @@ var player = new Player();
 
 console.log(player);
 console.log(bug1);
+
+function checkCollisions() {
+    for (var i = 0; i < allEnemies.length ;i++){
+    if (Player.x < allEnemies[i].x + 40 &&
+      Player.x > allEnemies[i].x-40 &&
+        Player.y < allEnemies[i].y + 40 &&
+        Player.y > allEnemies[i].y-40){
+        alert("You Lose!...Sad.");
+            Player.resetPlayer();
+        }
+    }
+}
+
+checkCollisions();
 
 
 // This listens for key presses and sends the keys to your
