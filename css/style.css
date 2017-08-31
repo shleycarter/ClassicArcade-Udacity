@@ -12,3 +12,6 @@ html {
     padding-top: 5vh;
 }
 
+.error{
+    border: 5px  solid red;
+}
